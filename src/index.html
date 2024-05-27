@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>test page</title>
+    <meta name="description" content="just for test" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/picocss/2.0.6/pico.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style></style>
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <ul></ul>
+        <ul>
+          <li>
+            <strong aria-busy="true">test page</strong>
+          </li>
+        </ul>
+        <ul></ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <article>
+        <header>Header</header>
+        Body
+        <a href="#">Primary</a>
+        <a href="#" class="secondary">Secondary</a>
+        <a href="#" class="contrast">Contrast</a>
+        <a href="#">Regular link</a>
+        <a href="#" aria-current="page">Active link</a>
+        <a href="#">Regular link</a>
+
+        <button>Button</button>
+        <button class="secondary">Secondary</button>
+        <button class="contrast">Contrast</button>
+        <button class="outline">Primary</button>
+        <button class="outline secondary">Secondary</button>
+        <button class="outline contrast">Contrast</button>
+
+        <input type="submit" />
+        <input type="button" value="Input" />
+        <input type="reset" />
+        <button disabled>Disabled</button>
+        <button class="secondary" disabled>Disabled</button>
+        <button class="contrast" disabled>Disabled</button>
+        <div role="button" tabindex="0">Div as a button</div>
+        <div role="group">
+          <button>Button</button>
+          <button>Button</button>
+          <button>Button</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Planet</th>
+              <th scope="col">Diameter (km)</th>
+              <th scope="col">Distance to Sun (AU)</th>
+              <th scope="col">Orbit (days)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Mercury</th>
+              <td>4,880</td>
+              <td>0.39</td>
+              <td>88</td>
+            </tr>
+            <tr>
+              <th scope="row">Venus</th>
+              <td>12,104</td>
+              <td>0.72</td>
+              <td>225</td>
+            </tr>
+            <tr>
+              <th scope="row">Earth</th>
+              <td>12,742</td>
+              <td>1.00</td>
+              <td>365</td>
+            </tr>
+            <tr>
+              <th scope="row">Mars</th>
+              <td>6,779</td>
+              <td>1.52</td>
+              <td>687</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row">Average</th>
+              <td>9,126</td>
+              <td>0.91</td>
+              <td>341</td>
+            </tr>
+          </tfoot>
+        </table>
+        <form>
+          <fieldset class="grid">
+            <input
+              name="login"
+              placeholder="Login"
+              aria-label="Login"
+              autocomplete="username"
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              aria-label="Password"
+              autocomplete="current-password"
+            />
+            <input type="submit" value="Log in" />
+          </fieldset>
+        </form>
+        <textarea
+          name="bio"
+          placeholder="Write a professional short bio..."
+          aria-label="Professional short bio"
+        ></textarea>
+
+        <footer>Footer</footer>
+      </article>
+    </main>
+
+    <footer></footer>
+  </body>
+</html>
