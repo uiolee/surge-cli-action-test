@@ -1,0 +1,91 @@
+name: Deploy
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "src/**"
+      - "package.json"
+      - ".github/workflows/deploy.yml"
+
+  pull_request:
+    branches: ["main"]
+
+  workflow_dispatch:
+
+  schedule:
+    - cron: "7 7 7/13 * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "deploy"
+  cancel-in-progress: false
+
+env:
+  default_node_version: ""
+  default_pnpm_version: "latest"
+  default_artifact_name: "artifact_name"
+  default_destination_dir: "dist"
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-slim
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: ${{ env.default_pnpm_version }}
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.default_node_version }}
+          cache: "pnpm"
+
+      - run: pnpm install
+
+      - run: pnpm run build
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ env.default_artifact_name }}
+          path: ${{ env.default_destination_dir }}
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 1
+          include-hidden-files: false
+
+  deploy_surge:
+    needs: build
+    if: ${{ github.event_name != 'pull_request' }}
+    name: Deploy to Surge.sh
+    runs-on: ubuntu-slim
+    permissions:
+      contents: read
+    environment:
+      name: "Surge.sh"
+      url: "https://${{ env.my_surge_domain }}"
+    env:
+      my_surge_domain: "surge-cli-action.surge.sh"
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: ${{ env.default_artifact_name }}
+          path: ${{ env.default_destination_dir }}
+
+      - uses: uiolee/surge-cli-action@v0.27.3
+        name: analytics showing bandwidth usage
+        with:
+          surge-args: "usage ${{ env.my_surge_domain }}"
+          surge-token: ${{ secrets.SURGE_TOKEN }}
+
+      - uses: uiolee/surge-cli-action@v0.27.3
+        name: publish built artifact to Surge.sh
+        with:
+          surge-args: "${{ env.default_destination_dir }} https://${{ env.my_surge_domain }}"
+          surge-token: ${{ secrets.SURGE_TOKEN }}

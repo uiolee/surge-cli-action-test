@@ -1,0 +1,35 @@
+{
+  "name": "surge-cli-action-test",
+  "version": "0.0.0",
+  "private": true,
+  "description": "",
+  "keywords": [],
+  "license": "MPL-2.0",
+  "author": "uiolee (https://github.com/uiolee)",
+  "type": "module",
+  "scripts": {
+    "build": "parcel build --detailed-report --no-cache",
+    "format": "prettier --write .",
+    "lint": "prettier --check . ",
+    "start": "parcel"
+  },
+  "devDependencies": {
+    "@parcel/config-default": "^2.16.4",
+    "@parcel/optimizer-htmlnano": "^2.16.4",
+    "parcel": "^2.16.4",
+    "parcel-reporter-static-files-copy": "^1.5.3",
+    "prettier": "^3.8.3"
+  },
+  "targets": {
+    "default": {
+      "source": "src/*",
+      "distDir": "dist",
+      "context": "browser",
+      "optimize": true,
+      "isLibrary": false,
+      "engines": {
+        "browsers": "defaults"
+      }
+    }
+  }
+}
