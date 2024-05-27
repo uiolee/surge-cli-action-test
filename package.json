@@ -1,0 +1,12 @@
+{
+  "name": "surge-cli-action-test",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo build"
+  },
+  "keywords": [],
+  "author": "uiolee (https://github.com/uiolee)",
+  "license": "MPL-2.0"
+}
