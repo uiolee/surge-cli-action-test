@@ -1,0 +1,45 @@
+name: Deploy
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "src/**"
+      - "package.json"
+      - ".github/workflows/deploy.yml"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "deploy"
+  cancel-in-progress: false
+
+env:
+  default_node_version: "lts/*"
+  default_destination: "./src"
+
+jobs:
+  deploy_surge:
+    name: Deploy to Surge
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    environment:
+      name: "surge"
+      url: "https://surge-cli-action-test.surge.sh"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: uiolee/surge-cli-action@v0.23.1
+        with:
+          surge-args: "${{ env.default_destination }} "
+          surge-token: ${{ secrets.SURGE_TOKEN }}
+          surge-email: ${{ secrets.SURGE_EMAIL }} # Just used to mask your email address
+
+      # - run: surge ${{ env.default_destination }} --token ${{ secrets.SURGE_TOKEN }}
+
+      - run: echo -n "url=$(cat ${{ env.default_destination }}/CNAME)" >> "$GITHUB_OUTPUT"
+        id: get_url
