@@ -1,12 +1,14 @@
 {
   "name": "surge-cli-action-test",
   "version": "0.0.0",
+  "private": true,
   "description": "",
+  "keywords": [],
+  "license": "MPL-2.0",
+  "author": "uiolee (https://github.com/uiolee)",
   "main": "index.js",
   "scripts": {
-    "build": "echo build"
-  },
-  "keywords": [],
-  "author": "uiolee (https://github.com/uiolee)",
-  "license": "MPL-2.0"
+    "build": "echo build",
+    "deploy": "surge ./src"
+  }
 }

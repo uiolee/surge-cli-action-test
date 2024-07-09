@@ -10,6 +10,9 @@ on:
 
   workflow_dispatch:
 
+  schedule:
+    - cron: "7 7 7/14 * *"
+
 permissions:
   contents: read
 
@@ -19,7 +22,7 @@ concurrency:
 
 env:
   default_node_version: "lts/*"
-  default_destination: "./src"
+  destination: "./src"
 
 jobs:
   deploy_surge:
@@ -28,18 +31,21 @@ jobs:
     permissions:
       contents: read
     environment:
-      name: "surge"
-      url: "https://surge-cli-action-test.surge.sh"
+      name: "surge-cli-action.surge.sh"
+      url: "${{ steps.get_url.outputs.url }}"
     steps:
       - uses: actions/checkout@v4
 
       - uses: uiolee/surge-cli-action@v0.23.1
         with:
-          surge-args: "${{ env.default_destination }} "
+          surge-args: "${{ env.destination }} "
+          # surge-args: "<project> <domain>"
           surge-token: ${{ secrets.SURGE_TOKEN }}
           surge-email: ${{ secrets.SURGE_EMAIL }} # Just used to mask your email address
 
-      # - run: surge ${{ env.default_destination }} --token ${{ secrets.SURGE_TOKEN }}
-
-      - run: echo -n "url=$(cat ${{ env.default_destination }}/CNAME)" >> "$GITHUB_OUTPUT"
+      - name: get domain from CNAME
         id: get_url
+        run: echo -n "url=$(cat ${{ env.destination }}/CNAME)" >> "$GITHUB_OUTPUT"
+
+      - name: output summary
+        run: echo "${{ steps.get_url.outputs.url }}" >> $GITHUB_STEP_SUMMARY
